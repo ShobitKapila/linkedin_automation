@@ -3,15 +3,15 @@ import getpass
 import pandas as pd
 
 # Replace with your LinkedIn app credentials
-client_id = "YOUR_CLIENT_ID"
-client_secret = "YOUR_CLIENT_SECRET"
+client_id = "78u4bc5iikwosq"
+client_secret = "OML3w76UKlkqXyKd"
 
-username = input("Your LinkedIn username/email: ")
-password = getpass.getpass("Your LinkedIn password: ")
+username = input("kapilashobit4@gmail.com ")
+password = getpass.getpass("Shobit@123")
 
 api = Linkedin(client_id, client_secret)
 api.login(username, password)
-domain = "Specific Domain"  # Replace with the domain you're interested in
+domain = "Machine Learning "  # Replace with the domain you're interested in
 results = []
 
 # Number of pages to scrape
