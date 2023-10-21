@@ -16,7 +16,6 @@ Thank you for your time and consideration.
 Best regards,
 [Your Name]
 """
-
 # Attach your resume or any other files if necessary
 attachment_path = "path_to_resume.pdf"
 
@@ -30,6 +29,5 @@ for result in results:
     api.send_message(
         recipient_id, message_subject, message, [attachment_path]
     )
-
     # LinkedIn's API has rate limits, so it's a good practice to add a delay between messages
     time.sleep(10)
