@@ -1,33 +1,37 @@
-import time
+import requests
+import json
 
-# Assuming you already have 'results' with LinkedIn profiles
-message_subject = "Exciting Job Opportunity"
-message_text = """
-Dear [Name],
+# Set your LinkedIn API credentials
+client_id = "78u4bc5iikwosq"
+client_secret = "OML3w76UKlkqXyKd"
 
-I hope this message finds you well. I wanted to bring to your attention an exciting job opportunity at our company.
+# Authenticate with the LinkedIn API
+def get_access_token():
+    url = "https://www.linkedin.com/developers/apps/214412004/auth"
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    data = {"grant_type": "client_credentials", "client_id": client_id, "client_secret": client_secret}
+    response = requests.post(url, headers=headers, data=data)
+    response.raise_for_status()
+    access_token = json.loads(response.content)["access_token"]
+    return access_token
 
-[Insert a brief description of the job opportunity, including company, role, and key responsibilities.]
+# Send a message to a LinkedIn user
+def send_message(recipient_id, message_body):
+    access_token = get_access_token()
+    url = "https://api.linkedin.com/v2/messaging/conversations"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    data = {
+        "participants": [recipient_id],
+        "message": {
+            "body": message_body,
+        },
+    }
+    response = requests.post(url, headers=headers, json=data)
+    response.raise_for_status()
 
-If you're interested, please feel free to reply, and I'd be happy to share more details and discuss your application.
+# Example usage:
 
-Thank you for your time and consideration.
+recipient_id = "Kapila Shobit"
+message_body = "Hello, world!"
 
-Best regards,
-[Your Name]
-"""
-# Attach your resume or any other files if necessary
-attachment_path = "path_to_resume.pdf"
-
-for result in results:
-    name = result.get("name", "")
-    recipient_id = result.get("publicIdentifier", "")
-
-    message = message_text.replace("[Name]", name)
-    
-    # Send the message with attachment
-    api.send_message(
-        recipient_id, message_subject, message, [attachment_path]
-    )
-    # LinkedIn's API has rate limits, so it's a good practice to add a delay between messages
-    time.sleep(10)
+send_message(recipient_id, message_body)
